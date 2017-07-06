@@ -10,7 +10,7 @@
 		{
 			"name": "/products",
 			"request": {
-				"url": "localhost:3000/products",
+				"url": "{{API}}/products",
 				"method": "GET",
 				"header": [],
 				"body": {},
@@ -21,7 +21,7 @@
 		{
 			"name": "/customers",
 			"request": {
-				"url": "localhost:3000/customers",
+				"url": "{{API}}/customers",
 				"method": "GET",
 				"header": [],
 				"body": {},
@@ -32,7 +32,7 @@
 		{
 			"name": "/sync",
 			"request": {
-				"url": "localhost:3000/sync",
+				"url": "{{API}}/sync",
 				"method": "POST",
 				"header": [
 					{
@@ -52,7 +52,18 @@
 		{
 			"name": "/",
 			"request": {
-				"url": "localhost:3000/",
+				"url": "{{API}}/",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/all",
+			"request": {
+				"url": "{{API}}/all",
 				"method": "GET",
 				"header": [],
 				"body": {},
