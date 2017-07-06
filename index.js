@@ -59,7 +59,6 @@ app.get('/customers', function(req, res) {
 });
 
 app.post('/sync', function(req, res) {
-  console.log(req.body);
   var currentAgency = req.body.company.agency[0];
   var agency = {
     id: currentAgency.$.agencyId,
@@ -108,7 +107,7 @@ app.post('/sync', function(req, res) {
     return db.addOrderDetails(orderDetails);
   }).then(function(data) {
     console.log(data);
-    res.json({ agency, customers, orders, orderDetails });
+    res.send();
   }).catch(function(err) {
     console.error(err);
   });

@@ -1,0 +1,64 @@
+{
+	"variables": [],
+	"info": {
+		"name": "GroupProjectXML",
+		"_postman_id": "8c73cd26-f20e-4e58-f083-63b86158198a",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/products",
+			"request": {
+				"url": "localhost:3000/products",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/customers",
+			"request": {
+				"url": "localhost:3000/customers",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/sync",
+			"request": {
+				"url": "localhost:3000/sync",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/xml",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<company>\n    <agency agencyId=\"1\">\n        <agencyName>Agency 1</agencyName>\n        <agencyAddress>Agency Address 1</agencyAddress>\n        <agencyPhone>123456789</agencyPhone>\n        <customers>\n            <customer customerId=\"c10000\">\n                <customerName>Customer 1</customerName>\n                <customerEmail>customer1@mail.com</customerEmail>\n                <customerPhone>123456789</customerPhone>\n            </customer>\n            <customer customerId=\"c20000\">\n                <customerName>Customer 2</customerName>\n                <customerEmail>customer2@mail.com</customerEmail>\n                <customerPhone>123456789</customerPhone>\n            </customer>\n        </customers>\n        <orders>\n            <order orderId=\"o10000\">\n                <customerId>c10000</customerId>\n                <orderDate>2017-05-05</orderDate>\n                <orderDetails>\n                    <orderDetail orderDetailId=\"od10001\">\n                        <productId>1</productId>\n                        <numberProducts>10</numberProducts>\n                        <price>1111110</price>\n                    </orderDetail>\n                    <orderDetail orderDetailId=\"od10002\">\n                        <productId>2</productId>\n                        <numberProducts>10</numberProducts>\n                        <price>2222220</price>\n                    </orderDetail>                  \n                </orderDetails>\n            </order>\n            <order orderId=\"o20000\">\n                <customerId>c20000</customerId>\n                <orderDate>2017-05-05</orderDate>\n                <orderDetails>\n                    <orderDetail orderDetailId=\"od20001\">\n                        <productId>3</productId>\n                        <numberProducts>10</numberProducts>\n                        <price>1111110</price>\n                    </orderDetail>\n                    <orderDetail orderDetailId=\"od20002\">\n                        <productId>4</productId>\n                        <numberProducts>10</numberProducts>\n                        <price>2222220</price>\n                    </orderDetail>\n                </orderDetails>\n            </order>\n        </orders>\n    </agency>\n</company>"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/",
+			"request": {
+				"url": "localhost:3000/",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
