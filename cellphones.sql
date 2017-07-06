@@ -31,7 +31,7 @@ USE `cellphones`;
 --
 
 CREATE TABLE `agency` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `address` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `phone` varchar(20) NOT NULL
@@ -57,7 +57,7 @@ INSERT INTO `agency` (`id`, `name`, `address`, `phone`) VALUES
 --
 
 CREATE TABLE `category` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -79,7 +79,7 @@ INSERT INTO `category` (`id`, `name`, `description`) VALUES
 --
 
 CREATE TABLE `customer` (
-  `id` int(19) UNSIGNED NOT NULL,
+  `id` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `fullname` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `phone` varchar(20) NOT NULL,
   `address` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -199,10 +199,10 @@ INSERT INTO `customer` (`id`, `fullname`, `phone`, `address`, `email`) VALUES
 --
 
 CREATE TABLE `orders` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `date` date NOT NULL,
-  `customer_id` int(10) UNSIGNED NOT NULL,
-  `agency_id` int(10) UNSIGNED NOT NULL
+  `customer_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `agency_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -418,9 +418,9 @@ INSERT INTO `orders` (`id`, `date`, `customer_id`, `agency_id`) VALUES
 --
 
 CREATE TABLE `order_detail` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `order_id` int(10) UNSIGNED NOT NULL,
-  `product_id` int(10) UNSIGNED NOT NULL,
+  `id` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `order_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `product_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `quantity` int(11) NOT NULL,
   `price` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -1038,9 +1038,9 @@ INSERT INTO `order_detail` (`id`, `order_id`, `product_id`, `quantity`, `price`)
 --
 
 CREATE TABLE `product` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `category_id` int(10) UNSIGNED DEFAULT NULL,
+  `category_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `unit_price` double NOT NULL,
   `quantity` int(11) NOT NULL,
   `status` tinyint(1) NOT NULL
@@ -1114,33 +1114,33 @@ ALTER TABLE `product`
 --
 -- AUTO_INCREMENT for table `agency`
 --
-ALTER TABLE `agency`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+-- ALTER TABLE `agency`
+  -- MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `category`
 --
-ALTER TABLE `category`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+-- ALTER TABLE `category`
+--   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `customer`
 --
-ALTER TABLE `customer`
-  MODIFY `id` int(19) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
+-- ALTER TABLE `customer`
+--   MODIFY `id` int(19) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
 --
 -- AUTO_INCREMENT for table `orders`
 --
-ALTER TABLE `orders`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=301;
+-- ALTER TABLE `orders`
+--   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=301;
 --
 -- AUTO_INCREMENT for table `order_detail`
 --
-ALTER TABLE `order_detail`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=801;
+-- ALTER TABLE `order_detail`
+--   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=801;
 --
 -- AUTO_INCREMENT for table `product`
 --
-ALTER TABLE `product`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+-- ALTER TABLE `product`
+--   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- Constraints for dumped tables
 --

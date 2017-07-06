@@ -74,6 +74,45 @@ api.getOneAgency = function() {
   });
 };
 
+api.addCustomers = function(customers) {
+  return new Promise(function(resolve, reject) {
+    var sql = 'INSERT INTO `customer` (`id`, `fullname`, `phone`, `address`, `email`) VALUES ?';
+    var rows = customers.map(function(customer) {
+      return [customer.id, customer.fullname, customer.phone, customer.address, customer.email];
+    });
+    connection.query(sql, [rows], function(error, results, fields) {
+      if (error) reject(error);
+      resolve(results);
+    });
+  });
+};
+
+api.addOrders = function(orders) {
+  return new Promise(function(resolve, reject) {
+    var sql = 'INSERT INTO `orders` (`id`, `date`, `customer_id`, `agency_id`) VALUES ?';
+    var rows = orders.map(function(order) {
+      return [order.id, order.date, order.customer_id, order.agency_id];
+    });
+    connection.query(sql, [rows], function(error, results, fields) {
+      if (error) reject(error);
+      resolve(results);
+    });
+  });
+};
+
+api.addOrderDetails = function(orderDetails) {
+  return new Promise(function(resolve, reject) {
+    var sql = 'INSERT INTO `order_detail` (`id`, `order_id`, `product_id`, `quantity`, `price`) VALUES ?';
+    var rows = orderDetails.map(function(orderDetail) {
+      return [orderDetail.id, orderDetail.order_id, orderDetail.product_id, orderDetail.quantity, orderDetail.price];
+    });
+    connection.query(sql, [rows], function(error, results, fields) {
+      if (error) reject(error);
+      resolve(results);
+    });
+  });
+};
+
 api.endConnection = function() {
   connection.end();  
 };

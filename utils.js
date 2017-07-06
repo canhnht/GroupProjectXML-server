@@ -95,7 +95,7 @@ api.ordersInXML = function(orders, orderDetails) {
           customerId: order.customer_id
         },
         {
-          orderDate: order.date
+          orderDate: order.date.toDateString()
         },
         {
           orderDetails: api.orderDetailsInXML(order.orderDetails)

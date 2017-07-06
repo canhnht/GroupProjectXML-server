@@ -62,19 +62,20 @@ app.post('/sync', function(req, res) {
   console.log(req.body);
   var currentAgency = req.body.company.agency[0];
   var agency = {
-    agencyId: currentAgency.$.agencyId,
-    agencyName: currentAgency.agencyName[0],
-    agencyAddress: currentAgency.agencyAddress[0],
-    agencyPhone: currentAgency.agencyPhone[0]
+    id: currentAgency.$.agencyId,
+    name: currentAgency.agencyName[0],
+    address: currentAgency.agencyAddress[0],
+    phone: currentAgency.agencyPhone[0]
   };
 
   var currentCustomers = req.body.company.agency[0].customers[0].customer;
   var customers = currentCustomers.map(function(customer) {
     return {
-      customerId: customer.$.customerId,
-      customerName: customer.customerName[0],
-      customerEmail: customer.customerEmail[0],
-      customerPhone: customer.customerPhone[0]
+      id: customer.$.customerId,
+      fullname: customer.customerName[0],
+      email: customer.customerEmail[0],
+      phone: customer.customerPhone[0],
+      address: ''
     }
   });
 
@@ -83,24 +84,34 @@ app.post('/sync', function(req, res) {
   var orderDetails = [];
   currentOrders.forEach(function(order) {
     orders.push({
-      orderId: order.$.orderId,
-      customerId: order.customerId[0],
-      orderDate: order.orderDate[0],
-      totalPrices: order.totalPrices[0]
+      id: order.$.orderId,
+      customer_id: order.customerId[0],
+      date: order.orderDate[0],
+      agency_id: agency.id
     });
 
     var currentOrderDetails = order.orderDetails[0].orderDetail;
     orderDetails = orderDetails.concat(currentOrderDetails.map(function(orderDetail) {
       return {
-        orderDetailId: orderDetail.$.orderDetailId,
-        productId: orderDetail.productId[0],
-        numberProducts: orderDetail.numberProducts[0],
+        id: orderDetail.$.orderDetailId,
+        order_id: order.$.orderId,
+        product_id: orderDetail.productId[0],
+        quantity: orderDetail.numberProducts[0],
         price: orderDetail.price[0]
       };
     }));
   });
 
-  res.json({ agency, customers, orders, orderDetails });
+  db.addCustomers(customers).then(function() {
+    return db.addOrders(orders);
+  }).then(function() {
+    return db.addOrderDetails(orderDetails);
+  }).then(function(data) {
+    console.log(data);
+    res.json({ agency, customers, orders, orderDetails });
+  }).catch(function(err) {
+    console.error(err);
+  });
 });
 
 app.use(function (err, req, res, next) {
