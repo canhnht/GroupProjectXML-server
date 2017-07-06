@@ -3,6 +3,8 @@ var app = express();
 var xml = require('xml');
 var bodyParser = require('body-parser');
 require('body-parser-xml')(bodyParser);
+var db = require('./db');
+var utils = require('./utils');
 
 app.use(bodyParser.xml({trim: true}));
 
@@ -10,87 +12,50 @@ app.get('/', function(req, res) {
   res.send('Hello XML!');
 });
 
+app.get('/all', function(req, res) {
+  var promises = [db.getProducts(), db.getCategories(), db.getCustomers(), db.getOrders(), db.getOrderDetails(), db.getOneAgency()];
+  Promise.all(promises).then(function(data) {
+    var response = {
+      data: [
+        { products: utils.productsInXML(data[0]) },
+        { categories: utils.categoriesInXML(data[1]) },
+        { customers: utils.customersInXML(data[2]) },
+        { orders: utils.ordersInXML(data[3], data[4]) }
+      ]
+    };
+    res.set('Content-Type', 'application/xml');
+    res.send(xml({ 
+      company: [{ 
+        agency: utils.agencyInXML(data[5], data[0], data[1], data[2], data[3], data[4])
+      }]
+    }));
+  }).catch(function(err) {
+    console.error(err);
+  });
+});
+
 app.get('/products', function(req, res) {
-  res.set('Content-Type', 'application/xml');
-  var products = [];
-  for (var i = 0; i < 5; ++i) {
-    products.push({ 
-      product: [
-        { 
-          _attr: { 
-            productId: `pro${i}` 
-          }
-        },
-        { 
-          productName: `Product ${i}`
-        },
-        {
-          productDescription: `Product Description ${i}`
-        },
-        {
-          productCategoryId: 'cat'
-        },
-        {
-          productPrice: i * 1000
-        }
+  var promises = [db.getProducts(), db.getCategories()];
+  Promise.all(promises).then(function(data) {
+    var response = {
+      productsAndCategories: [
+        { products: utils.productsInXML(data[0]) },
+        { categories: utils.categoriesInXML(data[1]) }
       ]
-    });
-  }
-
-  var categories = [];
-  for (var i = 0; i < 5; ++i) {
-    categories.push({
-      category: [
-        { 
-          _attr: { 
-            categoryId: `cat${i}` 
-          }
-        },
-        {
-          categoryName: `Category ${i}`,
-          categoryDescription: `Category Description ${i}`
-        }
-      ]
-    });
-  }
-
-  var response = {
-    productsAndCategories: [
-      { products: products },
-      { categories: categories }
-    ]
-  };
-  res.send(xml(response));
+    };
+    res.set('Content-Type', 'application/xml');
+    res.send(xml(response));
+  });
 });
 
 app.get('/customers', function(req, res) {
-  res.set('Content-Type', 'application/xml');
-  var customers = [];
-  for (var i = 0; i < 10; ++i) {
-    customers.push({ 
-      customer: [
-        { 
-          _attr: { 
-            customerId: `cus${i}` 
-          }
-        },
-        { 
-          customerName: `Customer ${i}`
-        },
-        {
-          customerEmail: `customer${i}@mail.com`
-        },
-        {
-          customerPhone: '123456789'
-        }
-      ]
-    });
-  }
-
-  var response = {
-    customers: customers
-  };
-  res.send(xml(response));
+  db.getCustomers().then(function(data) {
+    var response = {
+      customers: utils.customersInXML(data)
+    };
+    res.set('Content-Type', 'application/xml');
+    res.send(xml(response));
+  });
 });
 
 app.post('/sync', function(req, res) {
