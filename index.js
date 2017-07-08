@@ -66,40 +66,46 @@ app.post('/sync', function(req, res) {
     address: currentAgency.agencyAddress[0],
     phone: currentAgency.agencyPhone[0]
   };
-
-  var currentCustomers = req.body.company.agency[0].customers[0].customer;
-  var customers = currentCustomers.map(function(customer) {
-    return {
-      id: customer.$.customerId,
-      fullname: customer.customerName[0],
-      email: customer.customerEmail[0],
-      phone: customer.customerPhone[0],
-      address: ''
-    }
-  });
-
-  var currentOrders = req.body.company.agency[0].orders[0].order;
-  var orders = [];
-  var orderDetails = [];
-  currentOrders.forEach(function(order) {
-    orders.push({
-      id: order.$.orderId,
-      customer_id: order.customerId[0],
-      date: order.orderDate[0],
-      agency_id: agency.id
-    });
-
-    var currentOrderDetails = order.orderDetails[0].orderDetail;
-    orderDetails = orderDetails.concat(currentOrderDetails.map(function(orderDetail) {
+  
+  var currentCustomers = null;
+  if (req.body.company.agency[0].customers[0]) {
+    var currentCustomers = req.body.company.agency[0].customers[0].customer;
+    var customers = currentCustomers.map(function(customer) {
       return {
-        id: orderDetail.$.orderDetailId,
-        order_id: order.$.orderId,
-        product_id: orderDetail.productId[0],
-        quantity: orderDetail.numberProducts[0],
-        price: orderDetail.price[0]
-      };
-    }));
-  });
+        id: customer.$.customerId,
+        fullname: customer.customerName[0],
+        email: customer.customerEmail[0],
+        phone: customer.customerPhone[0],
+        address: ''
+      }
+    });
+  }
+
+  var currentOrders = null;
+  if (req.body.company.agency[0].orders[0]) {
+    var currentOrders = req.body.company.agency[0].orders[0].order;
+    var orders = [];
+    var orderDetails = [];
+    currentOrders.forEach(function(order) {
+      orders.push({
+        id: order.$.orderId,
+        customer_id: order.customerId[0],
+        date: order.orderDate[0],
+        agency_id: agency.id
+      });
+
+      var currentOrderDetails = order.orderDetails[0].orderDetail;
+      orderDetails = orderDetails.concat(currentOrderDetails.map(function(orderDetail) {
+        return {
+          id: orderDetail.$.orderDetailId,
+          order_id: order.$.orderId,
+          product_id: orderDetail.productId[0],
+          quantity: orderDetail.numberProducts[0],
+          price: orderDetail.price[0]
+        };
+      }));
+    });
+  }
 
   db.addCustomers(customers).then(function() {
     return db.addOrders(orders);

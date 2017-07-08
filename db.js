@@ -79,6 +79,7 @@ api.getOneAgency = function() {
 };
 
 api.addCustomers = function(customers) {
+  if (!customers) return Promise.resolve();
   return new Promise(function(resolve, reject) {
     var sql = 'INSERT INTO `customer` (`id`, `fullname`, `phone`, `address`, `email`) VALUES ?';
     var rows = customers.map(function(customer) {
@@ -92,6 +93,7 @@ api.addCustomers = function(customers) {
 };
 
 api.addOrders = function(orders) {
+  if (!orders) return Promise.resolve();
   return new Promise(function(resolve, reject) {
     var sql = 'INSERT INTO `orders` (`id`, `date`, `customer_id`, `agency_id`) VALUES ?';
     var rows = orders.map(function(order) {
@@ -105,6 +107,7 @@ api.addOrders = function(orders) {
 };
 
 api.addOrderDetails = function(orderDetails) {
+  if (!orderDetails) return Promise.resolve();
   return new Promise(function(resolve, reject) {
     var sql = 'INSERT INTO `order_detail` (`id`, `order_id`, `product_id`, `quantity`, `price`) VALUES ?';
     var rows = orderDetails.map(function(orderDetail) {
