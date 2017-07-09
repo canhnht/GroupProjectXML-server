@@ -67,7 +67,7 @@ app.post('/sync', function(req, res) {
     phone: currentAgency.agencyPhone[0]
   };
   
-  var currentCustomers = null;
+  var customers = null;
   if (req.body.company.agency[0].customers[0]) {
     var currentCustomers = req.body.company.agency[0].customers[0].customer;
     var customers = currentCustomers.map(function(customer) {
@@ -81,7 +81,8 @@ app.post('/sync', function(req, res) {
     });
   }
 
-  var currentOrders = null;
+  var orders = null;
+  var orderDetails = null;
   if (req.body.company.agency[0].orders[0]) {
     var currentOrders = req.body.company.agency[0].orders[0].order;
     var orders = [];
@@ -106,7 +107,9 @@ app.post('/sync', function(req, res) {
       }));
     });
   }
-
+  console.log(JSON.stringify(customers));
+  console.log(JSON.stringify(orders));
+  console.log(JSON.stringify(orderDetails));
   db.addCustomers(customers).then(function() {
     return db.addOrders(orders);
   }).then(function() {
