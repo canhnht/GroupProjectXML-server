@@ -95,7 +95,7 @@ api.ordersInXML = function(orders, orderDetails) {
           customerId: order.customer_id
         },
         {
-          orderDate: order.date.getFullYear() + '-' + (order.date.getMonth() + 1) + '-' + order.date.getDate()
+          orderDate: (order.date ? (order.date.getFullYear() + '-' + (order.date.getMonth() + 1) + '-' + order.date.getDate()) : '')
         },
         {
           orderDetails: api.orderDetailsInXML(order.orderDetails)
